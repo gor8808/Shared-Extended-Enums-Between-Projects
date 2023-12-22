@@ -1,24 +1,30 @@
-﻿namespace SharedLibrary.Models;
+﻿using System.ComponentModel;
+using System.Text.Json.Serialization;
+using SharedLibrary.Convertors;
 
+namespace SharedLibrary.Models;
+
+[JsonConverter(typeof(FieldTypeJsonConvertor))]
+[TypeConverter(typeof(FieldTypeTypeConverter))]
 public class FieldType : ExtendedEnumBase, IComparable
 {
     private static HashSet<FieldType>? _fieldTypes;
 
-    private FieldType(int value, string displayName, Func<object, bool> validationFunction) : base(displayName, value)
+    private FieldType(int value, string name, Func<object, bool> validationFunction) : base(name, value)
     {
         ValidationFunction = validationFunction;
     }
 
-    public static IEnumerable<FieldType>? Values => _fieldTypes;
+    [JsonIgnore] public static IEnumerable<FieldType>? Values => _fieldTypes;
 
-    public Func<object, bool> ValidationFunction { get; }
+    [JsonIgnore] public Func<object, bool> ValidationFunction { get; }
 
-    public static bool operator ==(FieldType left, FieldType right)
+    public static bool operator ==(FieldType? left, FieldType? right)
     {
         return left?.Value == right?.Value;
     }
 
-    public static bool operator !=(FieldType left, FieldType right)
+    public static bool operator !=(FieldType? left, FieldType? right)
     {
         return !(left == right);
     }
@@ -45,7 +51,7 @@ public class FieldType : ExtendedEnumBase, IComparable
         CheckToBeInitialized();
 
         return _fieldTypes.FirstOrDefault(x =>
-            string.Equals(x.DisplayName, displayName, StringComparison.OrdinalIgnoreCase));
+            string.Equals(x.Name, displayName, StringComparison.OrdinalIgnoreCase));
     }
 
     public static FieldType Get(int value)
@@ -59,7 +65,7 @@ public class FieldType : ExtendedEnumBase, IComparable
     {
         CheckToBeInitialized();
 
-        return _fieldTypes.First(x => string.Equals(x.DisplayName, displayName, StringComparison.OrdinalIgnoreCase));
+        return _fieldTypes.First(x => string.Equals(x.Name, displayName, StringComparison.OrdinalIgnoreCase));
     }
 
     public static void Create(params (int value, string displayName, Func<object, bool> validation)[] values)

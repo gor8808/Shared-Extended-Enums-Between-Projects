@@ -9,7 +9,7 @@ internal class Program
 {
     private static async Task Main(string[] args)
     {
-        ConfigureFieldTypes.Configure(config =>
+        FieldTypeConfigurations.Configure(config =>
         {
             config.ConfigureFieldTypes(
                 (0, "string", x => true),

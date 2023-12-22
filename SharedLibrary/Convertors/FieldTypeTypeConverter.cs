@@ -4,7 +4,7 @@ using SharedLibrary.Models;
 
 namespace SharedLibrary.Convertors;
 
-public class EntityTypeTypeConverter : TypeConverter
+public class FieldTypeTypeConverter : TypeConverter
 {
     public override bool CanConvertFrom(ITypeDescriptorContext? context, Type sourceType)
     {

@@ -2,13 +2,13 @@
 
 public class ExtendedEnumBase : IComparable
 {
-    protected ExtendedEnumBase(string displayName, int value)
+    protected ExtendedEnumBase(string name, int value)
     {
-        DisplayName = displayName;
+        Name = name;
         Value = value;
     }
 
-    public string DisplayName { get; protected set; }
+    public string Name { get; protected set; }
     public int Value { get; protected set; }
 
     public int CompareTo(object obj)
@@ -30,6 +30,6 @@ public class ExtendedEnumBase : IComparable
 
     public override string ToString()
     {
-        return DisplayName;
+        return Name;
     }
 }
